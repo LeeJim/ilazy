@@ -9,15 +9,20 @@
   } else {
     root.ilazy = factory(root)
   }
-})(this, function (root) {
+})(this, function (root, debug) {
 
   var ilazy = {}
-  var offset, view
+
+  var offset, view, container
+
+  debug = debug || function() {}
+
   var inView = function(elem, view) {
     if (elem == null || elem.nodeType !== 1) {
       return false
     }
     const rect = elem.getBoundingClientRect()
+    debug('target elem\'s top: %d, bottom: %d', rect.top, rect.bottom)
     return rect.bottom >= view.top && rect.top <= view.bottom
   }
 
@@ -26,9 +31,14 @@
     var length = nodes.length
     var node = null
 
+    if (length === 0) {
+      ilazy.unload()
+    }
+
     for (var i = 0; i < length; i++) {
       node = nodes[i]
       if (inView(node, view)) {
+        debug('elem %s is in view', node)
         var imageSrc = node.getAttribute('src')
         var ilazySrc = node.getAttribute('data-ilazy')
 
@@ -42,32 +52,33 @@
   ilazy.init = function(opts) {
     opts = opts || {}
     offset = opts.offset || 30
+    container = opts.container ? document.querySelector(opts.container) : root
     view = {
       top: 0,
-      bottom: root.innerHeight || document.documentElement.clientHeight
+      bottom: (root.innerHeight || document.documentElement.clientHeight) + offset
     }
 
     if (document.addEventListener) {
-      root.addEventListener('scroll', ilazy.autoLoad, false)
+      container.addEventListener('scroll', ilazy.autoLoad, false)
       root.addEventListener('load', ilazy.autoLoad, false)
     } else if (document.attachEvent) {
-      root.attachEvent('onScroll', ilazy.autoLoad, false)
+      container.attachEvent('onScroll', ilazy.autoLoad, false)
       root.attachEvent('onLoad', ilazy.autoLoad, false)
     } else {
-      root.onScroll = ilazy.autoLoad
+      container.onScroll = ilazy.autoLoad
       root.onLoad = ilazy.autoLoad
     }
   }
 
-  ilazy.upload = function() {
-    if (document.addEventListener) {
-      root.removeEventListener('scroll', ilazy.autoLoad, false)
+  ilazy.unload = function() {
+    if (document.removeEventListener) {
+      container.removeEventListener('scroll', ilazy.autoLoad, false)
       root.removeEventListener('load', ilazy.autoLoad, false)
-    } else if (document.attachEvent) {
-      root.distachEvent('onScroll', ilazy.autoLoad, false)
+    } else if (document.distachEvent) {
+      container.distachEvent('onScroll', ilazy.autoLoad, false)
       root.distachEvent('onLoad', ilazy.autoLoad, false)
     } else {
-      root.onScroll = null
+      container.onScroll = null
       root.onLoad = null
     }
   }
