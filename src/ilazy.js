@@ -7,7 +7,7 @@
   } else if (typeof exports === 'object') {
     module.exports = factory
   } else {
-    root.echo = factory(root)
+    root.ilazy = factory(root)
   }
 })(this, function (root) {
 
@@ -18,7 +18,7 @@
       return false
     }
     const rect = elem.getBoundingClientRect()
-    return elem.bottom >= view.top && elem.top <= view.bottom
+    return rect.bottom >= view.top && rect.top <= view.bottom
   }
 
   ilazy.autoLoad = function() {
@@ -29,9 +29,11 @@
     for (var i = 0; i < length; i++) {
       node = nodes[i]
       if (inView(node, view)) {
-        if (node.getAttribute('src') == null) {
-          var imageSrc = node.getAttribute('data-ilazy')
-          node.setAttribute('src', imageSrc)
+        var imageSrc = node.getAttribute('src')
+        var ilazySrc = node.getAttribute('data-ilazy')
+
+        if (imageSrc == null || imageSrc !== ilazySrc) {
+          node.setAttribute('src', ilazySrc)
         }
       }
     }
