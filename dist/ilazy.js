@@ -61,12 +61,6 @@
       bottom: (root.innerHeight || document.documentElement.clientHeight) + offset
     }
 
-    if (container !== root) {
-      var box = container.getBoundingClientRect()
-      view.top = box.top
-      view.bottom = box.top + box.height
-    }
-
     if (document.addEventListener) {
       container.addEventListener('scroll', ilazy.autoLoad, false)
       root.addEventListener('load', ilazy.autoLoad, false)

@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/LeeJim/ilazy/issues"
   },
-  "homepage": "https://github.com/LeeJim/ilazy#readme"
+  "homepage": "https://github.com/LeeJim/ilazy#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8"
+  }
 }
