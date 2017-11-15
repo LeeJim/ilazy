@@ -1,0 +1,24 @@
+{
+  "name": "ilazy",
+  "version": "0.0.1",
+  "description": "lazy-loading images",
+  "main": "src/ilazy.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeeJim/ilazy.git"
+  },
+  "keywords": [
+    "lazy",
+    "loading",
+    "images"
+  ],
+  "author": "leejim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LeeJim/ilazy/issues"
+  },
+  "homepage": "https://github.com/LeeJim/ilazy#readme"
+}
