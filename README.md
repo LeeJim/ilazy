@@ -5,13 +5,13 @@ ilazy是一个图片懒加载的工具，当图片出现在可视区域时才加
 
 使用npm下载:
 
-```
+```shell
 $ npm install ilazy
 ```
 
 下载后直接引用script
 
-```
+```html
 <script src="../somePath/ilazy.js"></script>
 ```
 
@@ -22,7 +22,7 @@ $ npm install ilazy
 若需要按比例设置，可以使用`padding-top`来相对于元素的宽度来设置。
 
 # 用法
-```
+```html
 <body>
   <!-- 使用img标签 -->
   <img src="loading.gif" alt="avatar" data-ilazy="images/avatar.png">
