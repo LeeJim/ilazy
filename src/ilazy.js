@@ -15,6 +15,31 @@
 
   var offset, view, container
 
+  var addEvent, removeEvent
+
+  if (document.addEventListener) {
+    addEvent = function(target, method, handler) {
+      target.addEventListener(method, handler, false)
+    }
+    removeEvent = function (target, method, handler) {
+      target.removeEventListener(method, handler, false)
+    }
+  } else if (document.attachEvent){
+    addEvent = function (target, method, handler) {
+      target.attachEvent('on' + method, handler)
+    }
+    removeEvent = function (target, method, handler) {
+      target.detachEvent('on' + method, handler)
+    }
+  } else {
+    addEvent = function (target, method, handler) {
+      target['on' + method] = handler
+    }
+    removeEvent = function (target, method) {
+      targe['on' + method] = null
+    }
+  }
+
   debug = debug || function() {}
 
   var inView = function(elem, view) {
@@ -67,29 +92,13 @@
       view.bottom = box.top + box.height
     }
 
-    if (document.addEventListener) {
-      container.addEventListener('scroll', ilazy.autoLoad, false)
-      root.addEventListener('load', ilazy.autoLoad, false)
-    } else if (document.attachEvent) {
-      container.attachEvent('onScroll', ilazy.autoLoad, false)
-      root.attachEvent('onLoad', ilazy.autoLoad, false)
-    } else {
-      container.onScroll = ilazy.autoLoad
-      root.onLoad = ilazy.autoLoad
-    }
+    addEvent(container, 'scroll', ilazy.autoLoad)
+    addEvent(root, 'load', ilazy.autoLoad)
   }
 
   ilazy.unload = function() {
-    if (document.removeEventListener) {
-      container.removeEventListener('scroll', ilazy.autoLoad, false)
-      root.removeEventListener('load', ilazy.autoLoad, false)
-    } else if (document.distachEvent) {
-      container.distachEvent('onScroll', ilazy.autoLoad, false)
-      root.distachEvent('onLoad', ilazy.autoLoad, false)
-    } else {
-      container.onScroll = null
-      root.onLoad = null
-    }
+    removeEvent(container, 'scroll', ilazy.autoLoad)
+    removeEvent(root, 'load', ilazy.autoLoad)
   }
 
   return ilazy
